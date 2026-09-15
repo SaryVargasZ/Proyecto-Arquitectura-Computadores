@@ -62,84 +62,95 @@ sum_array:
 ;      puntero: [rdx]=mean, [rcx]=var, [r8]=min, [r9]=max.
 ;   5) No olvide restaurar los registros callee-saved en el epilogo.
 ; ---------------------------------------------------------------
+
+
 compute_stats:
-    push    rbx
-    push    r12
-    push    r13
-    push    r14
-    push    r15
+;Primero se debe guardar en registros callee-saved
 
-    ; Respaldar argumentos en registros callee-saved (preservados tras call sum_array)
-    mov     rbx, rdi            ; rbx = arr
-    mov     r12d, esi           ; r12d = n
-    mov     r13, rdx            ; r13 = mean*
-    mov     r14, rcx            ; r14 = var*
-    mov     r15, r8             ; r15 = min*
-    push    r9                  ; Guardar max* en la pila (6to argumento)
+push rbx
+push r12
+push r13
+push r14
+push r15
 
-    ; Caso borde: N <= 0
-    test    r12d, r12d
-    jle     .stats_zero
+;mover los registros:
 
-    ; 1) Calcular mean = sum_array(arr, n) / n
-    call    sum_array           ; Retorna la suma en xmm0
-    cvtsi2ss xmm1, r12d         ; xmm1 = (float) n
-    divss   xmm0, xmm1          ; xmm0 = mean = suma / n
-    movss   [r13], xmm0         ; Escribir *mean
+mov rbx, rdi
+mov r12d, esi
+mov r13, rdx
+mov r14, rcx
+mov r15, r8
+push r9
 
-    ; 2) Preparación para acumular varianza, min y max
-    movss   xmm2, xmm0          ; xmm2 = mean
-    xorps   xmm0, xmm0          ; xmm0 = acumulador varianza = 0.0
+.evaluate_zero_case:
+test r12d, r12d
+jle .zero_case
 
-    movss   xmm3, [rbx]         ; xmm3 = min = arr[0]
-    movss   xmm4, [rbx]         ; xmm4 = max = arr[0]
+.mean:
+call sum_array
+cvtsi2ss xmm1, r12d
+divss xmm0, xmm1
+movss [r13], xmm0
 
-    xor     eax, eax            ; eax = i = 0
+;Se prepara lo que se ocupa para recorrer el arreglo:
+movss xmm3, [rbx]
+movss xmm4, [rbx]
+movss xmm2, xmm0
+xorps xmm0, xmm0
+xor eax, eax
+jmp .stats_loop
 
+
+.zero_case:
+pop r9
+xorps xmm0, xmm0
+movss [r13], xmm0
+movss [r14], xmm0
+movss [r15], xmm0
+movss [r9], xmm0
+
+jmp .epilogue
+
+
+
+;Se recorre el arreglo para acumular la suma y min, max
 .stats_loop:
-    cmp     eax, r12d
-    jge     .stats_loop_done
 
-    movss   xmm1, [rbx + rax*4] ; xmm1 = arr[i]
+cmp eax, r12d
+jge .operation_done
 
-    ; Actualizar min y max
-    minss   xmm3, xmm1          ; min = min(min, arr[i])
-    maxss   xmm4, xmm1          ; max = max(max, arr[i])
+movss xmm1, [rbx + rax*4]
+minss xmm3, xmm1
+maxss xmm4, xmm1
+subss xmm1, xmm2
+mulss xmm1, xmm1
+addss xmm0, xmm1
 
-    ; Acumular (arr[i] - mean)^2
-    subss   xmm1, xmm2          ; xmm1 = arr[i] - mean
-    mulss   xmm1, xmm1          ; xmm1 = (arr[i] - mean)^2
-    addss   xmm0, xmm1          ; acumulador += (arr[i] - mean)^2
+inc eax
 
-    inc     eax
-    jmp     .stats_loop
+jmp .stats_loop
 
-.stats_loop_done:
-    cvtsi2ss xmm1, r12d         ; xmm1 = (float) n
-    divss   xmm0, xmm1          ; xmm0 = varianza = acum / n
 
-    movss   [r14], xmm0         ; Escribir *var
-    movss   [r15], xmm3         ; Escribir *min
-    pop     r9                  ; Recuperar max* de la pila
-    movss   [r9], xmm4          ; Escribir *max
-    jmp     .stats_epilogue
 
-.stats_zero:
-    pop     r9                  ; Ajustar la pila (sacar max* sin usar)
-    xorps   xmm0, xmm0          ; xmm0 = 0.0
-    movss   [r13], xmm0         ; *mean = 0.0
-    movss   [r14], xmm0         ; *var  = 0.0
-    movss   [r15], xmm0         ; *min  = 0.0
-    movss   [r9], xmm0          ; *max  = 0.0
+.operation_done:
 
-.stats_epilogue:
-    pop     r15
-    pop     r14
-    pop     r13
-    pop     r12
-    pop     rbx
-    ret
+cvtsi2ss xmm1, r12d
+divss xmm0, xmm1
+movss [r14], xmm0
+movss [r13], xmm2
+movss [r15], xmm3
+pop r9
+movss [r9], xmm4
+jmp .epilogue
 
+
+.epilogue: 
+pop r15
+pop r14
+pop r13
+pop r12
+pop rbx
+ret
 ; ---------------------------------------------------------------
 ; void normalize_array(const float *in, float *out, int n,
 ;                       float mean, float stddev)
@@ -155,45 +166,52 @@ compute_stats:
 ; System V no se usan para pasar argumentos), o vuelva a cargarlos
 ; en cada iteracion desde una copia guardada en la pila.
 ; ---------------------------------------------------------------
+
+
 normalize_array:
-    ; TODO: implementar
-    test    edx, edx
-    jle     .norm_done          ; Si n <= 0, salir
 
-    movaps  xmm8, xmm0          ; xmm8 = mean (caller-saved seguro)
-    movaps  xmm9, xmm1          ; xmm9 = stddev (caller-saved seguro)
+test edx, edx
+jle .done
 
-    ; Comprobar si stddev == 0.0
-    xorps   xmm0, xmm0
-    comiss  xmm9, xmm0
-    je      .norm_copy_loop     ; Si stddev == 0, copiar directamente
+movss xmm8, xmm0
+movss xmm9, xmm1
 
-    xor     eax, eax            ; eax = i = 0
+xor eax, eax
+xorps xmm0, xmm0
+xorps xmm1, xmm1
 
-.norm_loop:
-    cmp     eax, edx
-    jge     .norm_done
+.zero_stddev:
+comiss xmm0, xmm9
+je .zero_case_stddev
 
-    movss   xmm0, [rdi + rax*4] ; xmm0 = in[i]
-    subss   xmm0, xmm8          ; xmm0 = in[i] - mean
-    divss   xmm0, xmm9          ; xmm0 = (in[i] - mean) / stddev
-    movss   [rsi + rax*4], xmm0 ; out[i] = xmm0
 
-    inc     eax
-    jmp     .norm_loop
 
-.norm_copy_loop:
-    xor     eax, eax            ; eax = i = 0
+.loop_norm:
+cmp eax, edx
+jge .done
 
-.copy_loop:
-    cmp     eax, edx
-    jge     .norm_done
+movss xmm1, [rdi + rax*4]
+subss xmm1, xmm8
+movss xmm0, xmm1
+divss xmm0, xmm9
+movss [rsi+rax*4], xmm0
+inc eax
 
-    movss   xmm0, [rdi + rax*4]
-    movss   [rsi + rax*4], xmm0 ; copia directa out[i] = in[i]
+jmp .loop_norm
 
-    inc     eax
-    jmp     .copy_loop
 
-.norm_done:
-    ret
+
+.done: 
+ret
+
+
+.zero_case_stddev:
+
+cmp     eax, edx
+jge     .done
+
+movss   xmm0, [rdi + rax*4]   
+movss   [rsi + rax*4], xmm0   
+inc     eax
+jmp     .zero_case_stddev
+

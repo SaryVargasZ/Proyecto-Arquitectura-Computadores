@@ -87,134 +87,132 @@ sum_array:
 ;   5) 'vzeroupper' antes de cualquier 'ret' en una funcion que usa
 ;      registros YMM.
 ; ---------------------------------------------------------------
-compute_stats:
-    push    rbx
-    push    r12
-    push    r13
-    push    r14
-    push    r15
 
-    mov     rbx, rdi                ; rbx = arr
-    mov     r12d, esi               ; r12d = n
-    mov     r13, rdx                ; r13 = mean*
-    mov     r14, rcx                ; r14 = var*
-    mov     r15, r8                 ; r15 = min*
-    push    r9                      ; max* a la pila (6to argumento)
+ compute_stats:
+    push rbx
+    push r12
+    push r13
+    push r14
+    push r15
+    push r9                  ; Guardar max* en pila
+
+    mov rbx, rdi             ; arr
+    mov r12d, esi            ; n
+    mov r13, rdx             ; mean*
+    mov r14, rcx             ; var*
+    mov r15, r8              ; min*
 
     ; Caso Borde: N <= 0
-    test    r12d, r12d
-    jle     .stats_zero
+    test r12d, r12d
+    jle .zero_n_case
 
-    ; Paso 1: Calcular la Media usando sum_array
-    call    sum_array               ; Retorna suma en xmm0
-    vcvtsi2ss xmm1, xmm1, r12d      ; xmm1 = (float) n
-    vdivss  xmm0, xmm0, xmm1        ; xmm0 = mean = suma / n
-    vmovss  [r13], xmm0             ; Guardar *mean
+.mean_vectorial:
+    call sum_array           ; xmm0 = suma total
+    cvtsi2ss xmm1, r12d      ; Convertir n a float
+    vdivss xmm0, xmm0, xmm1   ; xmm0 = mean
+    vmovss [r13], xmm0       ; Guardar *mean
 
-    ; Paso 2: Configurar acumuladores vectoriales
-    vbroadcastss ymm2, xmm0         ; ymm2 = [mean, mean, ..., mean] (8 carriles)
-    vxorps  ymm0, ymm0, ymm0        ; ymm0 = acumulador varianza = 0
-    vmovups ymm3, [rbx]             ; ymm3 = min inicial (primeros 8 elementos)
-    vmovups ymm4, [rbx]             ; ymm4 = max inicial (primeros 8 elementos)
+    ; Preparar media replicada para la varianza en ymm6 (¡No se sobrescribe!)
+    vbroadcastss ymm6, xmm0 
 
-    mov     ecx, r12d
-    and     ecx, ~7                 ; ecx = n redondeado al múltiplo de 8
-    test    ecx, ecx
-    jle     .stats_scalar_prep
+    ; Inicializar min (xmm3) y max (xmm4) con el primer elemento arr[0]
+    vmovss xmm3, [rbx]
+    vmovss xmm4, [rbx]
 
-    xor     eax, eax                ; eax = i = 0
+    ; Inicializar acumulador de varianza a 0
+    vxorps ymm0, ymm0, ymm0
 
-.stats_vec_loop:
-    cmp     eax, ecx
-    jge     .stats_vec_reduce
+    mov ecx, r12d
+    and ecx, ~7              ; ecx = múltiplos de 8
+    xor eax, eax             ; i = 0
 
-    vmovups ymm1, [rbx + rax*4]     ; Cargar 8 floats
+    test ecx, ecx
+    jle .scalar_operation    ; Si n < 8, ir directo a escalar
 
-    vminps  ymm3, ymm3, ymm1        ; Mínimo por carril
-    vmaxps  ymm4, ymm4, ymm1        ; Máximo por carril
+    ; Para min/max vectoriales, broadcasting del primer elemento a ymm4 y ymm5
+    vbroadcastss ymm4, xmm3
+    vbroadcastss ymm5, xmm4
 
-    vsubps  ymm5, ymm1, ymm2        ; ymm5 = x[i] - mean
-    vmulps  ymm5, ymm5, ymm5        ; ymm5 = (x[i] - mean)^2
-    vaddps  ymm0, ymm0, ymm5        ; Acumular cuadrados
+.loop_vectorization:
+    cmp eax, ecx
+    jge .stats_reduce
 
-    add     eax, 8
-    jmp     .stats_vec_loop
+    vmovups ymm1, [rbx + rax*4]
 
-.stats_vec_reduce:
-    ; Reducción Varianza (ymm0 -> xmm0)
-    vextractf128 xmm1, ymm0, 1
-    vaddps  xmm0, xmm0, xmm1
+    vminps ymm4, ymm4, ymm1   ; Mínimo vectorial
+    vmaxps ymm5, ymm5, ymm1   ; Máximo vectorial
+
+    vsubps ymm3, ymm1, ymm6   ; x - mean
+    vmulps ymm3, ymm3, ymm3   ; (x - mean)^2
+    vaddps ymm0, ymm0, ymm3   ; Acumular varianza en ymm0
+
+    add eax, 8
+    jmp .loop_vectorization
+
+.stats_reduce:
+    ; --- Reducción Varianza (ymm0 -> xmm0) ---
+    vextractf128 xmm2, ymm0, 1
+    vaddps  xmm0, xmm0, xmm2
     vhaddps xmm0, xmm0, xmm0
     vhaddps xmm0, xmm0, xmm0
 
-    ; Reducción Mínimo (ymm3 -> xmm3)
-    vextractf128 xmm1, ymm3, 1
-    vminps  xmm3, xmm3, xmm1
-    vpshufd xmm1, xmm3, 0x4E        ; Intercambiar palabras dobles 0-1 con 2-3
-    vminps  xmm3, xmm3, xmm1
-    vpshufd xmm1, xmm3, 0xB1        ; Intercambiar adyacentes
-    vminps  xmm3, xmm3, xmm1
+    ; --- Reducción Mínimo (ymm4 -> xmm3) ---
+    vextractf128 xmm2, ymm4, 1
+    vminps  xmm4, xmm4, xmm2
+    vpshufd xmm2, xmm4, 0x4E
+    vminps  xmm4, xmm4, xmm2
+    vpshufd xmm2, xmm4, 0xB1
+    vminps  xmm3, xmm4, xmm2
 
-    ; Reducción Máximo (ymm4 -> xmm4)
-    vextractf128 xmm1, ymm4, 1
-    vmaxps  xmm4, xmm4, xmm1
-    vpshufd xmm1, xmm4, 0x4E
-    vmaxps  xmm4, xmm4, xmm1
-    vpshufd xmm1, xmm4, 0xB1
-    vmaxps  xmm4, xmm4, xmm1
+    ; --- Reducción Máximo (ymm5 -> xmm4) ---
+    vextractf128 xmm2, ymm5, 1
+    vmaxps  xmm5, xmm5, xmm2
+    vpshufd xmm2, xmm5, 0x4E
+    vmaxps  xmm5, xmm5, xmm2
+    vpshufd xmm2, xmm5, 0xB1
+    vmaxps  xmm4, xmm5, xmm2
 
-    jmp     .stats_scalar_tail
+.scalar_operation:
+    cmp eax, r12d
+    jge .scalar_operation_done
 
-.stats_scalar_prep:
-    ; Preparación si N < 8
-    vmovss  xmm3, [rbx]
-    vmovss  xmm4, [rbx]
-    vxorps  xmm0, xmm0, xmm0
-    xor     eax, eax
+    vmovss xmm1, [rbx + rax*4]
+    vminss xmm3, xmm3, xmm1   ; Actualizar min
+    vmaxss xmm4, xmm4, xmm1   ; Actualizar max
 
-.stats_scalar_tail:
-    cmp     eax, r12d
-    jge     .stats_done
+    vmovss xmm5, [r13]        ; Cargar mean
+    vsubss xmm1, xmm1, xmm5   ; x[i] - mean
+    vmulss xmm1, xmm1, xmm1   ; (x[i] - mean)^2
+    vaddss xmm0, xmm0, xmm1   ; <--- CORREGIDO: Acumular xmm1 en xmm0
 
-    vmovss  xmm1, [rbx + rax*4]
+    inc eax
+    jmp .scalar_operation
 
-    vminss  xmm3, xmm3, xmm1
-    vmaxss  xmm4, xmm4, xmm1
+.scalar_operation_done:
+    cvtsi2ss xmm1, r12d
+    vdivss xmm0, xmm0, xmm1   ; Varianza final = suma_cuadrados / n
+    vmovss [r14], xmm0        ; Guardar *var
+    vmovss [r15], xmm3        ; Guardar *min
+    pop r9                    ; Restaurar r9 (max*)
+    vmovss [r9],  xmm4        ; Guardar *max
+    jmp .done
 
-    vsubss  xmm5, xmm1, [r13]       ; xmm5 = x[i] - mean
-    vmulss  xmm5, xmm5, xmm5        ; xmm5 = (x[i] - mean)^2
-    vaddss  xmm0, xmm0, xmm5
+.zero_n_case:
+    pop r9                    ; Limpiar pila
+    vxorps xmm0, xmm0, xmm0
+    vmovss [r13], xmm0        ; *mean = 0.0
+    vmovss [r14], xmm0        ; *var  = 0.0
+    vmovss [r15], xmm0        ; *min  = 0.0
+    vmovss [r9],  xmm0        ; *max  = 0.0
 
-    inc     eax
-    jmp     .stats_scalar_tail
-
-.stats_done:
-    vcvtsi2ss xmm1, xmm1, r12d      ; xmm1 = (float) n
-    vdivss  xmm0, xmm0, xmm1        ; Varianza = suma_cuadrados / n
-
-    vmovss  [r14], xmm0             ; *var
-    vmovss  [r15], xmm3             ; *min
-    pop     r9
-    vmovss  [r9], xmm4              ; *max
-    jmp     .stats_epilogue
-
-.stats_zero:
-    pop     r9
-    vxorps  xmm0, xmm0, xmm0
-    vmovss  [r13], xmm0             ; *mean = 0.0
-    vmovss  [r14], xmm0             ; *var  = 0.0
-    vmovss  [r15], xmm0             ; *min  = 0.0
-    vmovss  [r9], xmm0              ; *max  = 0.0
-
-.stats_epilogue:
-    pop     r15
-    pop     r14
-    pop     r13
-    pop     r12
-    pop     rbx
+.done:
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop rbx
     vzeroupper
     ret
-
 ; ---------------------------------------------------------------
 ; void normalize_array(const float *in, float *out, int n,
 ;                       float mean, float stddev)
@@ -234,68 +232,61 @@ compute_stats:
 ;     en sum_array.
 ;   - 'vzeroupper' antes del 'ret'.
 ; ---------------------------------------------------------------
+
 normalize_array:
-    ; TODO: implementar
-    test    edx, edx
-    jle     .norm_done
+    test edx, edx
+    jle .norm_done
 
-    vbroadcastss ymm2, xmm0         ; ymm2 = [mean, ..., mean]
-    vxorps  xmm3, xmm3, xmm3
-    vcomiss xmm1, xmm3
-    je      .norm_zero_stddev
+    vmovss xmm8, xmm0         ; xmm8 = mean
+    vmovss xmm9, xmm1         ; xmm9 = stddev
 
-    ; Recíproco de stddev para multiplicar (1.0 / stddev)
-    mov     eax, 0x3f800000         ; 1.0f en IEEE 754
-    vmovd   xmm3, eax
-    vdivss  xmm3, xmm3, xmm1        ; xmm3 = 1.0 / stddev
-    vbroadcastss ymm3, xmm3         ; ymm3 = [1/stddev, ..., 1/stddev]
+    vxorps xmm0, xmm0, xmm0
+    vcomiss xmm9, xmm0        ; Si stddev == 0.0
+    je .zero_case_stddev_init
 
-    mov     ecx, edx
-    and     ecx, ~7                 ; ecx = n redondeado a múltiplo de 8
-    xor     eax, eax                ; eax = i = 0
+    vbroadcastss ymm1, xmm8   ; ymm1 = mean replicado
+    vbroadcastss ymm2, xmm9   ; ymm2 = stddev replicado
 
-    test    ecx, ecx
-    jle     .norm_scalar_tail
+    mov ecx, edx
+    and ecx, ~7               ; múltiplos de 8
+    xor eax, eax              ; i = 0
 
-.norm_vec_loop:
-    cmp     eax, ecx
-    jge     .norm_scalar_tail
+    test ecx, ecx
+    jle .norm_scalar
 
-    vmovups ymm0, [rdi + rax*4]     ; Cargar 8 floats
-    vsubps  ymm0, ymm0, ymm2        ; x[i] - mean
-    vmulps  ymm0, ymm0, ymm3        ; (x[i] - mean) * (1/stddev)
-    vmovups [rsi + rax*4], ymm0     ; Guardar 8 floats
+.loop_norm:
+    cmp eax, ecx
+    jge .norm_scalar
 
-    add     eax, 8
-    jmp     .norm_vec_loop
+    vmovups ymm4, [rdi + rax*4]
+    vsubps  ymm4, ymm4, ymm1  ; in[i] - mean
+    vdivps  ymm4, ymm4, ymm2  ; / stddev
+    vmovups [rsi + rax*4], ymm4
+    add eax, 8
+    jmp .loop_norm
 
-.norm_scalar_tail:
-    cmp     eax, edx
-    jge     .norm_done
+.norm_scalar:
+    cmp eax, edx
+    jge .norm_done
 
-    vmovss  xmm0, [rdi + rax*4]
-    vsubss  xmm0, xmm0, [rsp - 8]   ; Restar mean
-    ; Usar xmm3 scalar para el remanente
-    vextractf128 xmm4, ymm3, 0
-    vmulss  xmm0, xmm0, xmm4
-    vmovss  [rsi + rax*4], xmm0
+    vmovss xmm0, [rdi + rax*4]
+    vsubss xmm0, xmm0, xmm8
+    vdivss xmm0, xmm0, xmm9
+    vmovss [rsi + rax*4], xmm0
+    inc eax
+    jmp .norm_scalar
 
-    inc     eax
-    jmp     .norm_scalar_tail
+.zero_case_stddev_init:
+    xor eax, eax
 
-.norm_zero_stddev:
-    ; Si stddev == 0, copiar arreglo in -> out directamente
-    xor     eax, eax
+.zero_case_stddev:
+    cmp eax, edx
+    jge .norm_done
 
-.copy_loop:
-    cmp     eax, edx
-    jge     .norm_done
-
-    vmovss  xmm0, [rdi + rax*4]
-    vmovss  [rsi + rax*4], xmm0
-
-    inc     eax
-    jmp     .copy_loop
+    vmovss xmm0, [rdi + rax*4]
+    vmovss [rsi + rax*4], xmm0
+    inc eax
+    jmp .zero_case_stddev
 
 .norm_done:
     vzeroupper
