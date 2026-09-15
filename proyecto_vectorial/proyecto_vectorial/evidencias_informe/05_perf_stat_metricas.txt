@@ -1,0 +1,57 @@
+=== PERFILADO DE HARDWARE CON PERF STAT (N = 5x10^7) ===
+
+---> [ESCALAR]:
+N        = 50000000
+Suma     = -163436.890625
+Media    = -0.003269
+Varianza = 2913.683105
+StdDev   = 53.978542
+Minimo   = -100.000000
+Maximo   = 100.000000
+Tiempo promedio del kernel (1 rep.): 255.337193 ms
+
+ Performance counter stats for './bin/norm_scalar data/input_5e7.dat data/out_scalar_5e7.dat 1':
+
+     1.490.138.778      cpu_atom/cycles/                                                        (4,87%)
+     1.972.174.525      cpu_core/cycles/                                                        (95,13%)
+     1.245.934.767      cpu_atom/instructions/                                                  (4,87%)
+     2.401.267.364      cpu_core/instructions/                                                  (95,13%)
+        35.088.178      cpu_atom/cache-references/                                              (4,87%)
+        41.035.305      cpu_core/cache-references/                                              (95,13%)
+        30.069.064      cpu_atom/cache-misses/                                                  (4,87%)
+        27.729.480      cpu_core/cache-misses/                                                  (95,13%)
+
+       2,277168825 seconds time elapsed
+
+       0,271244000 seconds user
+       0,182838000 seconds sys
+
+
+
+---> [VECTORIAL]:
+N        = 50000000
+Suma     = -163439.640625
+Media    = -0.003269
+Varianza = 3314.755127
+StdDev   = 57.573910
+Minimo   = -100.000000
+Maximo   = 100.000000
+Tiempo promedio del kernel (1 rep.): 45.420606 ms
+
+ Performance counter stats for './bin/norm_vector data/input_5e7.dat data/out_vector_5e7.dat 1':
+
+       779.195.197      cpu_atom/cycles/                                                        (2,05%)
+     1.038.024.577      cpu_core/cycles/                                                        (97,95%)
+       675.486.447      cpu_atom/instructions/                                                  (2,05%)
+       984.528.180      cpu_core/instructions/                                                  (97,95%)
+        16.777.953      cpu_atom/cache-references/                                              (2,05%)
+        40.386.515      cpu_core/cache-references/                                              (97,95%)
+        13.952.206      cpu_atom/cache-misses/                                                  (2,05%)
+        34.371.624      cpu_core/cache-misses/                                                  (97,95%)
+
+       2,398371946 seconds time elapsed
+
+       0,057189000 seconds user
+       0,182606000 seconds sys
+
+

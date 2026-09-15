@@ -215,3 +215,4 @@ movss   [rsi + rax*4], xmm0
 inc     eax
 jmp     .zero_case_stddev
 
+section .note.GNU-stack noalloc noexec nowrite progbits

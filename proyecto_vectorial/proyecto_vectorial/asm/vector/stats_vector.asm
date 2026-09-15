@@ -291,3 +291,5 @@ normalize_array:
 .norm_done:
     vzeroupper
     ret
+    
+ section .note.GNU-stack noalloc noexec nowrite progbits

@@ -1,0 +1,606 @@
+========================================================================
+         PRUEBAS DE CORRECTITUD Y VERIFICACIÓN DE ESPECIFICACIONES      
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_0.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 0
+Suma     = 0.000000
+Media    = 0.000000
+Varianza = 0.000000
+StdDev   = 0.000000
+Minimo   = 0.000000
+Maximo   = 0.000000
+Tiempo promedio del kernel (1 rep.): 0.000104 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 0
+Suma     = 0.000000
+Media    = 0.000000
+Varianza = 0.000000
+StdDev   = 0.000000
+Minimo   = 0.000000
+Maximo   = 0.000000
+Tiempo promedio del kernel (1 rep.): 0.000128 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                0.000000       0.000000              0  OK
+sum              0.000000       0.000000              0  OK
+mean             0.000000       0.000000              0  OK
+var              0.000000       0.000000              0  OK
+stddev           0.000000       0.000000              0  OK
+min              0.000000       0.000000              0  OK
+max              0.000000       0.000000              0  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                0.000000       0.000000              0  OK
+sum              0.000000       0.000000              0  OK
+mean             0.000000       0.000000              0  OK
+var              0.000000       0.000000              0  OK
+stddev           0.000000       0.000000              0  OK
+min              0.000000       0.000000              0  OK
+max              0.000000       0.000000              0  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_1.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 1
+Suma     = 51.131474
+Media    = 51.131474
+Varianza = 0.000000
+StdDev   = 0.000000
+Minimo   = 51.131474
+Maximo   = 51.131474
+Tiempo promedio del kernel (1 rep.): 0.000160 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 1
+Suma     = 51.131474
+Media    = 51.131474
+Varianza = 0.000000
+StdDev   = 0.000000
+Minimo   = 51.131474
+Maximo   = 51.131474
+Tiempo promedio del kernel (1 rep.): 0.000175 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                1.000000       1.000000              0  OK
+sum             51.131474      51.131473    8.06935e-10  OK
+mean            51.131474      51.131473    8.06935e-10  OK
+var              0.000000       0.000000              0  OK
+stddev           0.000000       0.000000              0  OK
+min             51.131474      51.131473    8.06935e-10  OK
+max             51.131474      51.131473    8.06935e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                1.000000       1.000000              0  OK
+sum             51.131474      51.131473    8.06935e-10  OK
+mean            51.131474      51.131473    8.06935e-10  OK
+var              0.000000       0.000000              0  OK
+stddev           0.000000       0.000000              0  OK
+min             51.131474      51.131473    8.06935e-10  OK
+max             51.131474      51.131473    8.06935e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_7.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 7
+Suma     = 167.403198
+Media    = 23.914743
+Varianza = 1828.749878
+StdDev   = 42.763885
+Minimo   = -50.202198
+Maximo   = 95.004135
+Tiempo promedio del kernel (1 rep.): 0.000312 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 7
+Suma     = 167.403198
+Media    = 23.914743
+Varianza = 1828.749878
+StdDev   = 42.763885
+Minimo   = -50.202198
+Maximo   = 95.004135
+Tiempo promedio del kernel (1 rep.): 0.000312 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                7.000000       7.000000              0  OK
+sum            167.403196     167.403198    9.94701e-09  OK
+mean            23.914742      23.914743    4.45939e-08  OK
+var           1828.749634    1828.749880    1.34355e-07  OK
+stddev          42.763882      42.763886    7.34814e-08  OK
+min            -50.202198     -50.202198    5.68988e-10  OK
+max             95.004135      95.004135    3.35101e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                7.000000       7.000000              0  OK
+sum            167.403196     167.403198    9.94701e-09  OK
+mean            23.914742      23.914743    4.45939e-08  OK
+var           1828.749634    1828.749880    1.34355e-07  OK
+stddev          42.763882      42.763886    7.34814e-08  OK
+min            -50.202198     -50.202198    5.68988e-10  OK
+max             95.004135      95.004135    3.35101e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_8.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 8
+Suma     = -73.218163
+Media    = -9.152270
+Varianza = 3538.286133
+StdDev   = 59.483494
+Minimo   = -99.649498
+Maximo   = 98.704430
+Tiempo promedio del kernel (1 rep.): 0.000283 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 8
+Suma     = -73.218178
+Media    = -9.152272
+Varianza = 3538.286377
+StdDev   = 59.483498
+Minimo   = -99.649498
+Maximo   = 98.704430
+Tiempo promedio del kernel (1 rep.): 0.000292 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                8.000000       8.000000              0  OK
+sum            -73.218174     -73.218163    1.56801e-07  OK
+mean            -9.152272      -9.152270    1.55982e-07  OK
+var           3538.286167    3538.286130    1.05463e-08  OK
+stddev          59.483495      59.483494    1.87465e-08  OK
+min            -99.649498     -99.649498      1.421e-10  OK
+max             98.704430      98.704430    2.68122e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n                8.000000       8.000000              0  OK
+sum            -73.218174     -73.218178    5.21631e-08  OK
+mean            -9.152272      -9.152272    5.16168e-08  OK
+var           3538.286167    3538.286380    6.01094e-08  OK
+stddev          59.483495      59.483498    4.51367e-08  OK
+min            -99.649498     -99.649498      1.421e-10  OK
+max             98.704430      98.704430    2.68122e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_15.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 15
+Suma     = -170.876968
+Media    = -11.391798
+Varianza = 3466.972412
+StdDev   = 58.881001
+Minimo   = -86.072464
+Maximo   = 92.991547
+Tiempo promedio del kernel (1 rep.): 0.000172 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 15
+Suma     = -170.876984
+Media    = -11.391799
+Varianza = 3466.971924
+StdDev   = 58.880997
+Minimo   = -86.072464
+Maximo   = 92.991547
+Tiempo promedio del kernel (1 rep.): 0.000350 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n               15.000000      15.000000              0  OK
+sum           -170.876976    -170.876968    4.68945e-08  OK
+mean           -11.391798     -11.391798    3.51901e-08  OK
+var           3466.972133    3466.972410    7.98166e-08  OK
+stddev          58.881000      58.881000    1.24897e-08  OK
+min            -86.072464     -86.072464    1.24804e-10  OK
+max             92.991547      92.991547    3.31851e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n               15.000000      15.000000              0  OK
+sum           -170.876976    -170.876984    4.67402e-08  OK
+mean           -11.391798     -11.391799    5.25923e-08  OK
+var           3466.972133    3466.971920    6.15171e-08  OK
+stddev          58.881000      58.880997    5.20472e-08  OK
+min            -86.072464     -86.072464    1.24804e-10  OK
+max             92.991547      92.991547    3.31851e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_16.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 16
+Suma     = 232.468201
+Media    = 14.529263
+Varianza = 2750.797852
+StdDev   = 52.448048
+Minimo   = -92.220886
+Maximo   = 83.054672
+Tiempo promedio del kernel (1 rep.): 0.000430 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 16
+Suma     = 232.468185
+Media    = 14.529262
+Varianza = 2750.798096
+StdDev   = 52.448051
+Minimo   = -92.220886
+Maximo   = 83.054672
+Tiempo promedio del kernel (1 rep.): 0.000328 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n               16.000000      16.000000              0  OK
+sum            232.468208     232.468201    3.19708e-08  OK
+mean            14.529263      14.529262    3.62725e-08  OK
+var           2750.798153    2750.797850    1.10073e-07  OK
+stddev          52.448052      52.448048    8.28374e-08  OK
+min            -92.220886     -92.220886    3.30389e-10  OK
+max             83.054672      83.054672     4.9619e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n               16.000000      16.000000              0  OK
+sum            232.468208     232.468185    1.00797e-07  OK
+mean            14.529263      14.529262    9.82164e-08  OK
+var           2750.798153    2750.798100    1.91906e-08  OK
+stddev          52.448052      52.448051    8.47807e-09  OK
+min            -92.220886     -92.220886    3.30389e-10  OK
+max             83.054672      83.054672     4.9619e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_1000.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 1000
+Suma     = 1975.803955
+Media    = 1.975804
+Varianza = 3369.474121
+StdDev   = 58.047173
+Minimo   = -99.758850
+Maximo   = 99.453842
+Tiempo promedio del kernel (1 rep.): 0.005018 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 1000
+Suma     = 1975.805054
+Media    = 1.975805
+Varianza = 3369.476562
+StdDev   = 58.047192
+Minimo   = -99.758850
+Maximo   = 99.453842
+Tiempo promedio del kernel (1 rep.): 0.001392 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n             1000.000000    1000.000000              0  OK
+sum           1975.805100    1975.803960    5.77079e-07  OK
+mean             1.975805       1.975804    5.72018e-07  OK
+var           3369.476359    3369.474120    6.64393e-07  OK
+stddev          58.047191      58.047173    3.15095e-07  OK
+min            -99.758850     -99.758850    2.34942e-11  OK
+max             99.453842      99.453842    3.71168e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n             1000.000000    1000.000000              0  OK
+sum           1975.805100    1975.805050    2.54049e-08  OK
+mean             1.975805       1.975805    3.04661e-08  OK
+var           3369.476359    3369.476560    5.97553e-08  OK
+stddev          58.047191      58.047192    1.39474e-08  OK
+min            -99.758850     -99.758850    2.34942e-11  OK
+max             99.453842      99.453842    3.71168e-10  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_const.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 100
+Suma     = 500.000000
+Media    = 5.000000
+Varianza = 0.000000
+StdDev   = 0.000000
+Minimo   = 5.000000
+Maximo   = 5.000000
+Tiempo promedio del kernel (1 rep.): 0.000291 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 100
+Suma     = 500.000000
+Media    = 5.000000
+Varianza = 0.000000
+StdDev   = 0.000000
+Minimo   = 5.000000
+Maximo   = 5.000000
+Tiempo promedio del kernel (1 rep.): 0.000321 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n              100.000000     100.000000              0  OK
+sum            500.000000     500.000000              0  OK
+mean             5.000000       5.000000              0  OK
+var              0.000000       0.000000              0  OK
+stddev           0.000000       0.000000              0  OK
+min              5.000000       5.000000              0  OK
+max              5.000000       5.000000              0  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n              100.000000     100.000000              0  OK
+sum            500.000000     500.000000              0  OK
+mean             5.000000       5.000000              0  OK
+var              0.000000       0.000000              0  OK
+stddev           0.000000       0.000000              0  OK
+min              5.000000       5.000000              0  OK
+max              5.000000       5.000000              0  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================
+
+------------------------------------------------------------------------
+ EVALUANDO CASO DE PRUEBA: input_edge.dat
+------------------------------------------------------------------------
+
+[1] RESULTADO SALIDA ESCALAR (bin/norm_scalar):
+------------------------------------------------
+N        = 100
+Suma     = 0.000000
+Media    = 0.000000
+Varianza = 299999952896.000000
+StdDev   = 547722.500000
+Minimo   = -1000000.000000
+Maximo   = 1000000.000000
+Tiempo promedio del kernel (1 rep.): 0.000844 ms
+
+[2] RESULTADO SALIDA VECTORIAL (bin/norm_vector):
+--------------------------------------------------
+N        = 100
+Suma     = 0.000000
+Media    = 0.000000
+Varianza = 299999985664.000000
+StdDev   = 547722.562500
+Minimo   = -1000000.000000
+Maximo   = 1000000.000000
+Tiempo promedio del kernel (1 rep.): 0.000380 ms
+
+[3] COMPARACIÓN: ESCALAR vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n              100.000000     100.000000              0  OK
+sum              0.000000       0.000000              0  OK
+mean             0.000000       0.000000              0  OK
+var       300000000000.280029299999953000.000000    1.56668e-07  OK
+stddev      547722.557505  547722.500000     1.0499e-07  OK
+min       -1000000.000000-1000000.000000              0  OK
+max        1000000.000000 1000000.000000              0  OK
+
+RESULTADO GENERAL: PASA
+
+[4] COMPARACIÓN: VECTORIAL vs REFERENCIA PYTHON
+--------------------------------------------------
+campo          referencia       obtenido     error rel.  resultado
+n              100.000000     100.000000              0  OK
+sum              0.000000       0.000000              0  OK
+mean             0.000000       0.000000              0  OK
+var       300000000000.280029299999986000.000000    4.66676e-08  OK
+stddev      547722.557505  547722.562000    8.20594e-09  OK
+min       -1000000.000000-1000000.000000              0  OK
+max        1000000.000000 1000000.000000              0  OK
+
+RESULTADO GENERAL: PASA
+
+[5] COMPARACIÓN DIRECTA: ESCALAR vs VECTORIAL
+--------------------------------------------------
+campo        escalar          vectorial        diff abs       resultado 
+----------------------------------------------------------------------
+n            0.000000         0.000000         0.000000e+00   OK        
+sum          0.000000         0.000000         0.000000e+00   OK        
+mean         0.000000         0.000000         0.000000e+00   OK        
+var          0.000000         0.000000         0.000000e+00   OK        
+stddev       0.000000         0.000000         0.000000e+00   OK        
+min          0.000000         0.000000         0.000000e+00   OK        
+max          0.000000         0.000000         0.000000e+00   OK        
+
+RESULTADO COMPARACIÓN ESCALAR vs VECTORIAL: PASA
+========================================================================

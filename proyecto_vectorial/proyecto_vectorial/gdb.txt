@@ -1,0 +1,28 @@
+
+=== DEPURACIÓN E INSPECCIÓN CON GDB (N = 16) ===
+Punto de interrupción 1 at 0x1988: file asm/vector/stats_vector.asm, line 92.
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <https://debuginfod.ubuntu.com>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Depuración de hilo usando libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, compute_stats () at asm/vector/stats_vector.asm:92
+92	    push rbx
+
+---> [EVIDENCIA 1]: Contenido del registro YMM0 (8 floats)
+compute_stats () at asm/vector/stats_vector.asm:93
+93	    push r12
+$1 = {232.468185, 232.468185, 232.468185, 232.468185, 0, 0, 0, 0}
+
+---> [EVIDENCIA 2]: Inspección de Memoria del arreglo
+Punto de interrupción 2 at 0x555555555abe: file asm/vector/stats_vector.asm, line 237.
+
+Breakpoint 2, normalize_array () at asm/vector/stats_vector.asm:237
+237	    test edx, edx
+238	    jle .norm_done
+script_gdb.gdb:17: Error en el archivo de orden de origen:
+No symbol "in" in current context.

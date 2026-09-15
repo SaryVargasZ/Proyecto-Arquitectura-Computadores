@@ -1,0 +1,167 @@
+========================================================================
+      BENCHMARKING DE RENDIMIENTO Y CONSUMO DE RECURSOS DEL SISTEMA     
+========================================================================
+
+========================================================================
+ PRUEBAS DE RENDIMIENTO Y RECURSOS PARA N = 1e3
+========================================================================
+
+---> [1] ESCALAR: Tiempo de Ejecución (30 repeticiones)
+N        = 1000
+Suma     = -1977.368286
+Media    = -1.977368
+Varianza = 3453.236572
+StdDev   = 58.764244
+Minimo   = -99.750557
+Maximo   = 99.917343
+Tiempo promedio del kernel (30 rep.): 0.006699 ms
+
+---> [1.1] ESCALAR: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 0%
+	Maximum resident set size (kbytes): 1920
+	Swaps: 0
+
+---> [2] VECTORIAL: Tiempo de Ejecución (30 repeticiones)
+N        = 1000
+Suma     = -1977.368652
+Media    = -1.977369
+Varianza = 3453.236572
+StdDev   = 58.764244
+Minimo   = -99.750557
+Maximo   = 99.917343
+Tiempo promedio del kernel (30 rep.): 0.001218 ms
+
+---> [2.1] VECTORIAL: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 84%
+	Maximum resident set size (kbytes): 2016
+	Swaps: 0
+
+---> [3] ANÁLISIS DE ANCHO DE BANDA Y EFICIENCIA DE RECURSOS
+Datos procesados (Entrada + Salida): 0.01 MB (8000 bytes)
+
+========================================================================
+ PRUEBAS DE RENDIMIENTO Y RECURSOS PARA N = 1e5
+========================================================================
+
+---> [1] ESCALAR: Tiempo de Ejecución (30 repeticiones)
+N        = 100000
+Suma     = -12188.145508
+Media    = -0.121881
+Varianza = 3347.687256
+StdDev   = 57.859203
+Minimo   = -99.994987
+Maximo   = 99.999588
+Tiempo promedio del kernel (30 rep.): 0.512849 ms
+
+---> [1.1] ESCALAR: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 0%
+	Maximum resident set size (kbytes): 2784
+	Swaps: 0
+
+---> [2] VECTORIAL: Tiempo de Ejecución (30 repeticiones)
+N        = 100000
+Suma     = -12188.173828
+Media    = -0.121882
+Varianza = 3347.721191
+StdDev   = 57.859497
+Minimo   = -99.994987
+Maximo   = 99.999588
+Tiempo promedio del kernel (30 rep.): 0.039092 ms
+
+---> [2.1] VECTORIAL: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 100%
+	Maximum resident set size (kbytes): 2764
+	Swaps: 0
+
+---> [3] ANÁLISIS DE ANCHO DE BANDA Y EFICIENCIA DE RECURSOS
+Datos procesados (Entrada + Salida): 0.76 MB (800000 bytes)
+
+========================================================================
+ PRUEBAS DE RENDIMIENTO Y RECURSOS PARA N = 1e6
+========================================================================
+
+---> [1] ESCALAR: Tiempo de Ejecución (30 repeticiones)
+N        = 1000000
+Suma     = 38071.691406
+Media    = 0.038072
+Varianza = 3330.614990
+StdDev   = 57.711479
+Minimo   = -99.999977
+Maximo   = 99.999954
+Tiempo promedio del kernel (30 rep.): 5.069084 ms
+
+---> [1.1] ESCALAR: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 84%
+	Maximum resident set size (kbytes): 9808
+	Swaps: 0
+
+---> [2] VECTORIAL: Tiempo de Ejecución (30 repeticiones)
+N        = 1000000
+Suma     = 38070.121094
+Media    = 0.038070
+Varianza = 3331.672119
+StdDev   = 57.720638
+Minimo   = -99.999977
+Maximo   = 99.999954
+Tiempo promedio del kernel (30 rep.): 0.557423 ms
+
+---> [2.1] VECTORIAL: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 4%
+	Maximum resident set size (kbytes): 9660
+	Swaps: 0
+
+---> [3] ANÁLISIS DE ANCHO DE BANDA Y EFICIENCIA DE RECURSOS
+Datos procesados (Entrada + Salida): 7.63 MB (8000000 bytes)
+
+========================================================================
+ PRUEBAS DE RENDIMIENTO Y RECURSOS PARA N = 5e7
+========================================================================
+
+---> [1] ESCALAR: Tiempo de Ejecución (30 repeticiones)
+N        = 50000000
+Suma     = -163436.890625
+Media    = -0.003269
+Varianza = 2913.683105
+StdDev   = 53.978542
+Minimo   = -100.000000
+Maximo   = 100.000000
+Tiempo promedio del kernel (30 rep.): 259.981575 ms
+
+---> [1.1] ESCALAR: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.27
+	System time (seconds): 0.19
+	Percent of CPU this job got: 22%
+	Maximum resident set size (kbytes): 392404
+	Swaps: 0
+
+---> [2] VECTORIAL: Tiempo de Ejecución (30 repeticiones)
+N        = 50000000
+Suma     = -163439.640625
+Media    = -0.003269
+Varianza = 3314.755127
+StdDev   = 57.573910
+Minimo   = -100.000000
+Maximo   = 100.000000
+Tiempo promedio del kernel (30 rep.): 48.802407 ms
+
+---> [2.1] VECTORIAL: Consumo de Recursos del Sistema (Medido con /usr/bin/time)
+	User time (seconds): 0.06
+	System time (seconds): 0.20
+	Percent of CPU this job got: 11%
+	Maximum resident set size (kbytes): 392412
+	Swaps: 0
+
+---> [3] ANÁLISIS DE ANCHO DE BANDA Y EFICIENCIA DE RECURSOS
+Datos procesados (Entrada + Salida): 381.47 MB (400000000 bytes)
