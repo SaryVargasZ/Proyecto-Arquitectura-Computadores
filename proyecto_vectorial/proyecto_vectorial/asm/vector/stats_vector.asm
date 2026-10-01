@@ -137,7 +137,7 @@ sum_array:
     cmp eax, ecx
     jge .stats_reduce
 
-    vmovups ymm1, [rbx + rax*4]
+    vmovaps ymm1, [rbx + rax*4]
 
     vminps ymm4, ymm4, ymm1   ; Mínimo vectorial
     vmaxps ymm5, ymm5, ymm1   ; Máximo vectorial
@@ -258,10 +258,10 @@ normalize_array:
     cmp eax, ecx
     jge .norm_scalar
 
-    vmovups ymm4, [rdi + rax*4]
+    vmovaps ymm4, [rdi + rax*4]
     vsubps  ymm4, ymm4, ymm1  ; in[i] - mean
     vdivps  ymm4, ymm4, ymm2  ; / stddev
-    vmovups [rsi + rax*4], ymm4
+    vmovaps [rsi + rax*4], ymm4
     add eax, 8
     jmp .loop_norm
 
