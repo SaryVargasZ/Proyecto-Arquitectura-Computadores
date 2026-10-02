@@ -1,5 +1,5 @@
 ; =============================================================
-; stats_vector_comentado.asm
+; stats_vector.asm
 ; Implementación VECTORIZADA con AVX2.
 ;
 ; Objetivo:
