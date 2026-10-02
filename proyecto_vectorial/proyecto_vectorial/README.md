@@ -90,7 +90,8 @@ Características principales:
 │   ├── Diagrama 2.pdf
 │   ├── Diagrama 3.pdf
 │   ├── Diagrama 4.pdf
-│   └── Diagramas_Arquitectura_Escalar_Vectorial.pdf
+│   ├── Diagramas_Arquitectura_Escalar_Vectorial.pdf
+│   └── Enlaces Diagramas.md
 └── data/
     └── archivos de entrada y salida generados durante las pruebas
 ```
