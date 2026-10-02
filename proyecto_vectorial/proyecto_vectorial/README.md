@@ -4,9 +4,9 @@ Proyecto de Arquitectura de Computadores enfocado en comparar una implementació
 
 El programa recibe un arreglo de números `float32`, calcula sus principales estadísticos y genera una versión normalizada mediante:
 
-\[
+$$
 y[i] = \frac{x[i]-\mu}{\sigma}
-\]
+$$
 
 La versión escalar procesa **1 elemento por iteración**, mientras que la versión vectorial procesa **8 elementos por iteración** utilizando registros YMM de 256 bits.
 
