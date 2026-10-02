@@ -1,5 +1,5 @@
 ; =============================================================
-; stats_scalar_comentado.asm
+; stats_scalar.asm
 ; Implementación ESCALAR de los kernels estadísticos.
 ;
 ; Objetivo:
